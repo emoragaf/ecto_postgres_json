@@ -46,7 +46,7 @@ defmodule MyApp.Repo.Migrations.CreatePosts do
       timestamps()
     end
     create json_index(:posts, :payload)
-    create json_index(:posts, ["payload", "tags"])
+    create json_index(:posts, ["payload", "tags"], name: :post_tags_index)
   end
 end
 ```
