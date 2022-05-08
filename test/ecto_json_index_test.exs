@@ -44,6 +44,12 @@ defmodule EctoPostgresJson.IndexTest do
              }
   end
 
+  test "raises if given multiple 'where' clauses for an index" do
+    assert_raise ArgumentError, fn ->
+      json_index(:posts, :title, where: "status = 'published'", where: "deleted = 'false'")
+    end
+  end
+
   test "forward: creates an index" do
     create(json_index(:posts, [:title]))
     flush()
