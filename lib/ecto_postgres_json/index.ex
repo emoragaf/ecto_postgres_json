@@ -46,12 +46,14 @@ defmodule EctoPostgresJson.Index do
     %{index | name: index.name || default_index_name(table, column, "idxginp")}
   end
 
-  def json_index(table, [column | properties]= columns, opts) when is_binary(table) and is_list(columns) and is_list(opts) do
+  def json_index(table, [column | properties] = columns, opts)
+      when is_binary(table) and is_list(columns) and is_list(opts) do
     validate_index_opts!(opts)
     opts = Keyword.put(opts, :using, "GIN")
+
     column_expr =
       properties
-      |> Enum.map(&("'#{&1}'"))
+      |> Enum.map(&"'#{&1}'")
       |> List.insert_at(0, column)
       |> Enum.join(" -> ")
       |> then(fn e -> "(#{e})" end)
@@ -74,11 +76,10 @@ defmodule EctoPostgresJson.Index do
 
   defp default_index_name(table, columns, prefix) do
     [prefix, table, columns]
-    |> List.flatten
+    |> List.flatten()
     |> Enum.map(&to_string(&1))
     |> Enum.map(&String.replace(&1, ~r"[^\w_]", "_"))
-    |> Enum.map(&String.replace_trailing(&1, "_", ""))
-    |> Enum.join("_")
-    |> String.to_atom
+    |> Enum.map_join("_", &String.replace_trailing(&1, "_", ""))
+    |> String.to_atom()
   end
 end
