@@ -1,9 +1,9 @@
-defmodule EctoJsonIndex.MixProject do
+defmodule EctoPostgresJson.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :ecto_json_index,
+      app: :ecto_postgres_json,
       version: "0.1.0",
       elixir: "~> 1.13",
       deps: deps()

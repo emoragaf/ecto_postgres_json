@@ -1,8 +1,8 @@
-defmodule EctoJsonIndexTest do
+defmodule EctoPostgresJson.IndexTest do
   use ExUnit.Case
   use Ecto.Migration
 
-  import EctoJsonIndex
+  import EctoPostgresJson.Index
   alias Ecto.Migration.Index
   alias EctoSQL.TestRepo
   alias Ecto.Migration.Runner
