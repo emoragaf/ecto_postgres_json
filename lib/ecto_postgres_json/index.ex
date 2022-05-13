@@ -1,17 +1,22 @@
 defmodule EctoPostgresJson.Index do
   @moduledoc """
-  Provides a json_index/3 function to pass to Ecto migration to handle the creation of JSONb Indexes
+  Provides a `json_index/3` function to pass to Ecto migration to handle the
+  creation of JSONb Indexes.
   """
 
   alias Ecto.Migration.Index
 
   @doc ~S"""
   Returns an index struct that can be given to Ecto.Migration `create/1`, `drop/1`, etc.
-  Expects the table name as the first argument and the field(s) as
-  the second. The fields can be atoms, representing the JSONb column name, or a list of strings,
-  representing the JSONb colum name + JSON attributes to index.
+
+  Expects the table name as the first argument and the field(s) as the second.
+  The fields can be atoms, representing the JSONb column name, or a list of
+  strings, representing the JSONb column name + JSON attributes to index.
+
   ## Options
-    * `:name` - the name of the index. Defaults to "#{"idxgin" | "idxginp"}#{table}_#{fields}".
+
+    * `:name` - the name of the index. Defaults to
+      "#{"idxgin" | "idxginp"}#{table}_#{fields}".
     * `:unique` - indicates whether the index should be unique. Defaults to
       `false`.
     * `:concurrently` - indicates whether the index should be created/dropped
@@ -19,17 +24,33 @@ defmodule EctoPostgresJson.Index do
     * `:prefix` - specify an optional prefix for the index.
     * `:where` - specify conditions for a partial index.
     * `:comment` - adds a comment to the index.
+
   ## Examples
-      # With no name provided, the name of the below index defaults to
-      # idxginp_products_category
+
+  With no name provided, the name of the below index defaults to
+  `idxginp_products_category`:
+
       create json_index("products", :category)
-      # The name can also be set explicitly
+
+  The name can also be set explicitly:
+
       create json_index("products", :category, name: :my_special_name)
-      # With no name provided, the name of the below index defaults to
-      # idxgin_products_category_tags
+
+  With no name provided, the name of the below index defaults to
+  `idxgin_products_category_tags`:
+
       create json_index("products", ["category", "tags"])
-      # Partial indexes are created by specifying a :where option, note that you need to use the necessary JSONb expressions:
-      create json_index("account", :email_provider, where: "email_provider #>> '{email_provider,google,smtp_host}' = 'smtp.gmail.com'", name: :gmail_provider_index)
+
+  Partial indexes are created by specifying a :where option, note that you need
+  to use the necessary JSONb expressions:
+
+      create json_index(
+        "account",
+        :email_provider,
+        where: "email_provider #>> '{email_provider,google,smtp_host}' = 'smtp.gmail.com'",
+        name: :gmail_provider_index
+      )
+
   """
   def json_index(table, columns, opts \\ [])
 

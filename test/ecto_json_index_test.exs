@@ -4,8 +4,8 @@ defmodule EctoPostgresJson.IndexTest do
 
   import EctoPostgresJson.Index
   alias Ecto.Migration.Index
-  alias EctoSQL.TestRepo
   alias Ecto.Migration.Runner
+  alias EctoSQL.TestRepo
 
   setup meta do
     config = Application.get_env(:ecto_sql, TestRepo, [])
@@ -56,5 +56,5 @@ defmodule EctoPostgresJson.IndexTest do
     assert {:create, %Index{}} = last_command()
   end
 
-  defp last_command(), do: Process.get(:last_command)
+  defp last_command, do: Process.get(:last_command)
 end
